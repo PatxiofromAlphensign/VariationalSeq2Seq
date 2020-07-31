@@ -7,7 +7,7 @@ import numpy as np
 
 
 class UbuntuDataset(data.Dataset):
-    def __init__(self, filepath, max_seq_len):
+    def __init__(self, filepath, max_seq_len=20):
         # 1. Initialize file path or list of file names.
         """read training sentences(list of int array) from a hdf5 file"""
         self.max_seq_len=max_seq_len
@@ -74,7 +74,7 @@ if __name__ == '__main__':
             break
         decoded_words=[]
         idx=qapair[0].numpy().tolist()[0]
-        print idx
+        print(idx)
         for i in idx:
             decoded_words.append(ivocab[i])
         question = ' '.join(decoded_words)

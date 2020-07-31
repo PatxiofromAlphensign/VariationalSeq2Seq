@@ -16,6 +16,7 @@ import torch.nn.functional as F
 ######################################################################
 # The Seq2Seq Model
 # =================
+
 class Encoder(nn.Module):
     def __init__(self, input_size , hidden_size, n_layers=1):
         super(Encoder, self).__init__()

@@ -111,7 +111,7 @@ def save_hdf5(qa_idxs, filename):
         pos += len(q)+len(a)
         count += 1
         if count % 1000000 == 0:
-            print count
+            print(count)
             sys.stdout.flush()
             indices.flush()
         elif count % 100000 == 0:

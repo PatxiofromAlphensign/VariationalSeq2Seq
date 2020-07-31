@@ -1,0 +1,40 @@
+from model import Encoder, LatentVariation, Decoder
+import torch
+import numpy as np
+
+
+def paddedInputsFromVocab(Vocab, padding=0):
+    sent_emb = [[float(i) for i,x in enumerate(s.split())] for s in Vocab.split('.')]
+    sent_emb = np.array(sent_emb)
+    max_len_v = max([len(v) for v in sent_emb])
+    assert padding in [0,1,-1], 'must be between -1, 1'
+    if padding is 0:
+        padding = torch.zeros(sent_emb.shape[0], max_len_v)
+    elif padding == 1:
+        padding = torch.ones(sent_emb.shape[0], max_len_v)
+    elif padding == -1:
+        pass
+    
+
+    for v_i in range(padding.shape[0] - 1):
+         padding[(v_i), :len(sent_emb[v_i])] = torch.Tensor(sent_emb[v_i])
+    
+    input_s, spn = padding.shape
+
+    return padding, input_s, spn
+
+def insertInEncoder(params, vocab):        
+    padding, input_s, spn = params
+    padding = np.expand_dims(padding, axis=2).T
+    padding = torch.Tensor(padding)
+    encoder = Encoder(input_s, spn)
+    out, hd = (encoder.forward(padding))
+    return out
+
+if __name__ == '__main__':
+
+    vocab = """
+    the cia are fucking niggers. and the world fucking sucks with poor as people. They glow in the dark so fucking run them over. I will feel more alive
+    """
+
+    print(insertInEncoder(paddedInputsFromVocab(vocab, padding=1), vocab))
